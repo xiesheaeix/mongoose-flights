@@ -4,6 +4,7 @@ module.exports = {
     index,
     new: newFlight,
     create,
+    show,
 };
 
 function index(req, res) {
@@ -13,14 +14,24 @@ function index(req, res) {
 }
 
 function newFlight(req, res) {
-    res.render('flights/new');
+    const newFlight = new Flight();
+    const date = newFlight.departs;
+    let departsDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    departsDate += `-${date.getDate().toString().padStart(2, '0')}T${date.toTimeString().slice(0, 5)}`;
+    res.render('flights/new', { departsDate });
 }
+
 
 function create(req, res) {
     const flight = new Flight(req.body);
     flight.save(function(err) {
         if (err) return res.redirect('/flights/new');
-        console.log(flight);
         res.redirect('/flights');
+    });
+}
+
+function show(req, res) {
+    Flight.findById(req.params.id, function(err, flight) {
+        res.render('flights/show', { title: 'Flight Details', flight });
     });
 }
