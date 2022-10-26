@@ -31,9 +31,6 @@ table td {
   text-align: center;
 }
 
-.date-passed {
-  color: red;
-}
 
 #show-page {
   display: grid;
