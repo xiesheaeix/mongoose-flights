@@ -8,9 +8,12 @@
         <div>Flight Number: </div>
         <div><%= flight.flightNo %></div>
         <div>Departs</div>
-        <div><%= flight.departs %></div>
+        <div><%= flight.departs.toLocaleString([],  
+          {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}) %></div>
     </section><br>
 
+
+    <h1>Flight Destinations</h1>
 
     <form id="add-destination" method="POST" 
     action="/flights/<%= flight._id %>/destinations">
@@ -28,9 +31,6 @@
         <input type="submit" value="Add Destination">
     </form>
 
-<a href="/flights/<%= flight.id %>/tickets/new">New Ticket</a>
-
-    <h1>Flight Destinations</h1>
     <% if (flight.destinations.length) { %>
         <table>
           <thead>
@@ -42,7 +42,8 @@
             <% flight.destinations.forEach(function(f) { %>
               <tr>
                 <td><%= f.airport %></td>
-                <td><%= f.arrival %></td>
+                <td><%= f.arrival.toLocaleString([],  
+                  {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}) %></td>
               </tr>
             <% }); %>
           </tbody>
@@ -51,8 +52,16 @@
         <h5>No Destinations Yet</h5>
       <% } %>
 
+  <h1>Tickets</h1>
 
-      <h1>Tickets</h1>
+  <form id="add-ticket-form" action="/flights/<%= flight.id %>/tickets" method="POST">
+    <label>Seat:</label>
+    <input name="seat" required pattern="[A-F][1-9]\d?">
+    <label>Price:</label>
+    <input name="price" type="number">
+    <input type="submit" value="Add Ticket">
+  </form>
+
       <% if (tickets.length) { %>
           <table>
             <thead>
