@@ -22,7 +22,6 @@ function newFlight(req, res) {
     res.render('flights/new', { departsDate });
 }
 
-
 function create(req, res) {
     const flight = new Flight(req.body);
     flight.save(function(err) {
